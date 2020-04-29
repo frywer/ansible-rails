@@ -25,7 +25,13 @@ sudo mv ./ansible /etc
 ssh-copy-id root@1.2.3.4
 ```
 
+### 4. Update variables
 
+deployment user and password
+```ruby
+worker_password: password
+common_public_key: ssh-rsa xxx
+```
 ### 4. Ping servers
 
 ```ruby
