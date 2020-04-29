@@ -33,6 +33,11 @@ in ansible-rails/roles/user/vars/
 worker_password: password
 common_public_key: ssh-rsa xxx
 ```
+mysql root password
+in ansible-rails/roles/mysql/tasks/main.yml
+```ruby
+mysql_user
+```
 ### 5. Ping servers
 
 ```ruby
