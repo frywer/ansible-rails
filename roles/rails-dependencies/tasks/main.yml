@@ -1,0 +1,28 @@
+---
+- name: Install Node JS
+  shell: curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+  register: nodejsinstall
+
+- name: Add Yarn Keys
+  apt_key:
+    url=https://dl.yarnpkg.com/debian/pubkey.gpg
+    state=present
+  when: nodejsinstall is success
+  register: addyarnkeys
+
+- name: Add Yarn Repository
+  when: addyarnkeys is success
+  copy:
+    content: "deb https://dl.yarnpkg.com/debian/ stable main" 
+    dest: /etc/apt/sources.list.d/yarn.list
+  register: addyarnrepo
+
+- name: Apt Update
+  when: addyarnrepo is success
+  apt: 
+    update_cache: yes
+
+- name: Install rails dependencies
+  when: addyarnrepo is success
+  apt: 
+    name: "{{ rails_dependencies }}"

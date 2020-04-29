@@ -1,0 +1,44 @@
+---
+# Passenger repository setup.
+- name: Add Passenger apt key.
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 561F9B9CAC40B2F7
+    state: present
+
+- name: Add apt HTTPS capabilities.
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+    state: present
+
+- name: Add Phusion apt repo.
+  apt_repository:
+    repo: 'deb https://oss-binaries.phusionpassenger.com/apt/passenger {{ ansible_distribution_release }} main'
+    state: present
+    update_cache: true
+
+# Nginx and passenger installation.
+- name: Install Nginx and Passenger.
+  apt:
+    name:
+      - nginx-extras
+      - nginx-common
+      - libnginx-mod-http-passenger
+    state: present
+  register: nginxinstalled
+  notify: restart nginx
+
+- name: Copy ssl certificates
+  when: nginxinstalled is success
+  copy: src=ssl dest=/etc/nginx owner=root group=root
+
+- name: Set Passanger ruby path
+  copy:
+    src: mod-http-passenger.conf
+    dest: /etc/nginx/conf.d/mod-http-passenger.conf
+    owner: worker
+    group: worker
+    backup: yes
+  notify: restart nginx

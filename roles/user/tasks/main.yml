@@ -1,0 +1,14 @@
+---
+- name: Create Worker User
+  user:
+    name=worker
+    password={{ worker_password }}
+    groups=sudo
+    append=yes
+    shell=/bin/bash
+
+- name: Add Worker Authorized Key
+  authorized_key:
+    user=worker
+    key="{{ common_public_key }}"
+    state=present

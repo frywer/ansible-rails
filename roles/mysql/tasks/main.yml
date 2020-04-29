@@ -1,0 +1,16 @@
+---
+- name: Install MySQL
+  apt:
+    name: ['mysql-server', 'mysql-client', 'libmysqlclient-dev']
+
+- name: install python mysql bindings
+  apt: name=python-mysqldb state=present
+  become: yes
+
+- name: Set root user password
+  mysql_user: name=root
+              password="gladWorker"
+              check_implicit_admin=yes
+              login_user="root"
+              login_password="gladWorker"
+              state=present

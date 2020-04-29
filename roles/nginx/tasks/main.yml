@@ -1,0 +1,15 @@
+---
+- name: Add Nginx Repository
+  apt_repository: repo='ppa:nginx/stable' state=present
+  register: ppastable
+
+- name: Install Nginx
+  apt: pkg=nginx state=present update_cache=true
+  when: ppastable is success
+  register: nginxinstalled
+  notify:
+    - Start Nginx
+
+- name: Copy ssl certificates
+  when: nginxinstalled is success
+  copy: src=ssl dest=/etc/nginx owner=root group=root
