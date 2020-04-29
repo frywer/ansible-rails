@@ -28,11 +28,12 @@ ssh-copy-id root@1.2.3.4
 ### 4. Update variables
 
 deployment user and password
+in ansible-rails/roles/user/vars/
 ```ruby
 worker_password: password
 common_public_key: ssh-rsa xxx
 ```
-### 4. Ping servers
+### 5. Ping servers
 
 ```ruby
 cd /etc/ansible
@@ -40,7 +41,7 @@ ansible -i ./hosts deploy -m ping
 ```
 
 
-### 5. Run ansible
+### 6. Run ansible
 
 ```ruby
 ansible-playbook -i ./hosts ./servers.yml
