@@ -9,8 +9,8 @@
 
 - name: Set root user password
   mysql_user: name=root
-              password="gladWorker"
+              password="superSecurePassword"
               check_implicit_admin=yes
               login_user="root"
-              login_password="gladWorker"
+              login_password="superSecurePassword"
               state=present
